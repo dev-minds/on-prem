@@ -17,7 +17,6 @@ pipeline {
 	    	steps {
 				checkout scm 
 				sh "ls -al"
-				sh "whoami"
 	    	}
 		}
     }	
