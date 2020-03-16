@@ -15,7 +15,7 @@ pipeline {
 	    	agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
 	    	steps {
 				checkout scm 
-				ls -al
+				sh "ls -al"
 	    	}
 		}
     }	
