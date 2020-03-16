@@ -1,0 +1,6 @@
+target_vpc      = "vpc-20e7dd46"
+target_subnet   = "subnet-2541f07f"
+target_keypairs = "dm-kliuch"
+project_name    = "ami_builder"
+aws_ami         = "ami-0267669df27b8e0d0"
+server_type     = "t2.large"
