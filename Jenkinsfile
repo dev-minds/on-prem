@@ -18,21 +18,23 @@ pipeline {
 				checkout scm 
 				sh "ls -al"
 	    	}
-			stage('Test Conn'){
-				agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
-				steps {
-					checkout scm
-					withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
-						credentialsId: 'aws_keys',
-						accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
-						secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-					]]) {
-						wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
-							sh "aws ec2 describe-instances --region eu-west-1"
-						} 
-					}
+		}
+
+		stage('Test Conn'){
+			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
+			steps {
+				checkout scm
+				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+					credentialsId: 'dm_aws_keys',
+					accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+					secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+				]]) {
+					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
+						sh "aws ec2 describe-instances --region eu-west-1"
+					} 
 				}
 			}
 		}
+		
     }	
 }
