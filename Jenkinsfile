@@ -12,7 +12,7 @@ pipeline {
 
     stages {
 		stage('Test Conn'){
-			// agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
+			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
 	    	// agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
 	    	steps {
 				checkout scm 
