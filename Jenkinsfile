@@ -43,7 +43,7 @@ pipeline {
 				]]) {
 					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
 						sh "packer build ./packer/base.json"
-						sh "aws ec2 describe-images --owners 023451010066 --filters "Name=name,Values=base_*" --query 'sort_by(Images, &CreationDate)[].Name' --region eu-west-1"
+						sh "aws ec2 describe-images --owners 023451010066 --filters \"Name=name,Values=base_*\" --query \'sort_by(Images, &CreationDate)[].Name\' --region eu-west-1"
 					} 
 				}
 			}
