@@ -1,0 +1,11 @@
+{
+    "vpc": "vpc-20e7dd46",
+    "subnet": "subnet-c97205af",
+    "aws_region": "eu-west-1", 
+    "src_ami": "management-box-ami-v0.8", 
+    "acct_owner": "023451010066",
+    "builder_ami_desc": "Amazon Linux CIS with Cloudwatch Logs agent",
+    "builder_ip_assoc": "true",
+    "builder_type": "amazon-ebs",
+    "builder_name": "AWS-MGNT-GENERIC-BUILD-DMINDS",
+}
