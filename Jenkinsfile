@@ -26,7 +26,6 @@ pipeline {
 				]]) {
 					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
 						sh "packer validate ./packer/base.json"
-						sh "aws ec2 describe-instances --region eu-west-1"
 					} 
 				}
 			}
@@ -53,23 +52,6 @@ pipeline {
             steps{
                  input 'Deploy?'
             }
-        }
-
-		stage('Deployment In Progress'){
-			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
-			steps {
-				checkout scm
-				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
-					credentialsId: 'dm_aws_keys',
-					accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
-					secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-				]]) {
-					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
-						sh "aws ec2 describe-instances --region eu-west-1"
-					} 
-				}
-			}
-		}
-		
+        }		
     }	
 }
