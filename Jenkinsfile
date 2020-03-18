@@ -15,7 +15,7 @@ pipeline {
 		choice(name: 'DEPLOYER_SVR', choices: ['start', 'stop'], description: 'We create AMI from this server')
 		booleanParam(name: 'Run_Packer', defaultValue: false, description: 'Run packer image builder')
 		choice(name: 'ENV_STATUS', choices: ['dev', 'qa', 'prod', 'all'], description: 'Get report status per environment')
-		string(name: 'UPDATE_HOSTEDZONE_IP', defaultValue: '', description: 'Points environment to subdomain')
+		choice(name: 'UPDATE_DNS', choices: ['true', 'false'], description: 'Points environment to subdomain')
     }
  
     options {
