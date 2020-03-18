@@ -9,7 +9,7 @@ pipeline {
     }
 
     parameters {
-		booleanParam(name: 'CREATE_NEW_VPC', defaultValue: false, description: 'Deploys VPC networking is checked')
+		string(name: 'CREATE_NEW_VPC', defaultValue: '', description: 'Deploys VPC networking is with given name')
         choice(name: 'VPC_MANAGEMENT', choices: ['create', 'read', 'update', 'delete'], description: 'Manage VPCs per environment')
 		choice(name: 'VPC_ENV', choices: ['dev', 'qa', 'prod'], description: 'Manage target environment')
 		choice(name: 'DEPLOYER_SVR', choices: ['start', 'stop'], description: 'We create AMI from this server')
