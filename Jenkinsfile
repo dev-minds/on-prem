@@ -4,6 +4,11 @@ pipeline {
         AWS_DEFAULT_REGION = 'eu-west-1'
 		AWS_REGION = "eu-west-1"
     }
+
+    parameters {
+        choice(name: 'VPC_MANAGEMENT', choices: ['create', 'read', 'update', 'delete'], description: 'Manage VPCs per environment'))
+		choice(name: 'VPC_ENV', choices: ['dev', 'qa'], description: 'Manage target environment'))
+    }
  
     options {
 		buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
@@ -15,6 +20,24 @@ pipeline {
     }
 
     stages {
+		satge('VPC infra'){
+			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
+			steps {
+				checkout scm
+				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+					credentialsId: 'dm_aws_keys',
+					accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+					secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+				]]) {
+					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
+						dir('./terraform/vpc_scaffold'){
+							sh "terraform init"
+						}
+					} 
+				}
+			}	
+		}
+
 		stage('Validate Packer'){
 			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
 			steps {
