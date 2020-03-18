@@ -13,6 +13,7 @@ pipeline {
 		choice(name: 'VPC_ENV', choices: ['dev', 'qa', 'prod'], description: 'Manage target environment')
 		choice(name: 'DEPLOYER_SVR', choices: ['start', 'stop'], description: 'We create AMI from this server')
 		booleanParam(name: 'Run_Packer', defaultValue: false, description: 'Run packer image builder')
+		choice(name: 'ENV_STATUS', choices: ['dev', 'qa', 'prod', 'all'], description: 'Get report status per environment')
 		string(name: 'UPDATE_HOSTEDZONE_IP', defaultValue: '', description: 'Points environment to subdomain')
     }
  
