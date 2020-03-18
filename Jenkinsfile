@@ -21,7 +21,7 @@ pipeline {
 
     stages {
 		stage('VPC infra'){
-			// agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
+			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
 			steps {
 				checkout scm
 				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
@@ -31,6 +31,7 @@ pipeline {
 				]]) {
 					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
 						dir('./terraform/vpc_scaffold'){
+							sh "teraform --version"
 							sh "terraform init"
 						}
 					} 
