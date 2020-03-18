@@ -6,8 +6,8 @@ pipeline {
     }
 
     parameters {
-        choice(name: 'VPC_MANAGEMENT', choices: ['create', 'read', 'update', 'delete'], description: 'Manage VPCs per environment'))
-		choice(name: 'VPC_ENV', choices: ['dev', 'qa'], description: 'Manage target environment'))
+        choice(name: 'VPC_MANAGEMENT', choices: ['create', 'read', 'update', 'delete'], description: 'Manage VPCs per environment')
+		choice(name: 'VPC_ENV', choices: ['dev', 'qa'], description: 'Manage target environment')
     }
  
     options {
