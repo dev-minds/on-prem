@@ -31,9 +31,9 @@ pipeline {
 				]]) {
 					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
 						sh "terraform --version"
-						dir('./terraform/vpc_scaffold'){
-							sh "teraform --version"
-						}
+						// dir('./terraform/vpc_scaffold'){
+						// 	sh "teraform --version"
+						// }
 					} 
 				}
 			}	
