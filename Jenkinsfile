@@ -11,6 +11,7 @@ pipeline {
     parameters {
         choice(name: 'VPC_MANAGEMENT', choices: ['create', 'read', 'update', 'delete'], description: 'Manage VPCs per environment')
 		choice(name: 'VPC_ENV', choices: ['dev', 'qa', 'prod'], description: 'Manage target environment')
+		choice(name: 'DEPLOYER_SVR', choices: ['start', 'stop'], description: 'We create AMI from this server')
 		booleanParam(name: 'Run_Packer', defaultValue: false, description: 'Run packer image builder')
     }
  
@@ -39,7 +40,6 @@ pipeline {
 				]]) {
 					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
 						dir('./terraform/vpc_scaffold'){
-
 							sh "terraform init"
 							sh "terraform fmt"
 							sh "terraform plan"
