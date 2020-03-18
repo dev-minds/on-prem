@@ -20,7 +20,7 @@ pipeline {
     }
 
     stages {
-		satge('VPC infra'){
+		stage('VPC infra'){
 			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
 			steps {
 				checkout scm
