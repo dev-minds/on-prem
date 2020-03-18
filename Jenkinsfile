@@ -39,6 +39,7 @@ pipeline {
 				]]) {
 					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
 						dir('./terraform/vpc_scaffold'){
+							sh "ls -la"
 							sh "terraform init"
 							sh "terraform fmt"
 							sh "terraform plan"
