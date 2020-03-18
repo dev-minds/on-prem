@@ -30,10 +30,11 @@ pipeline {
 					secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
 				]]) {
 					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
-							sh "teraform init ./terraform/vpc_scaffold/"
-							sh "fmt ./terraform/vpc_scaffold/"
-							sh "plan ./terraform/vpc_scaffold/"
-						
+						dir('./terraform/vpc_scaffold'){
+							sh "terraform init"
+							sh "terraform fmt"
+							sh "terraform plan"
+						}
 					} 
 				}
 			}	
