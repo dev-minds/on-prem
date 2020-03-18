@@ -28,10 +28,10 @@ pipeline {
 			// agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
 			steps {
 				checkout scm
-				GitCheckout(
-					branch: "master", 
-					url: "https://github.com/spring-projects/spring-petclinic.git"
-				)
+				// GitCheckout(
+				// 	branch: "master", 
+				// 	url: "https://github.com/spring-projects/spring-petclinic.git"
+				// )
 				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
 					credentialsId: 'dm_aws_keys',
 					accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
@@ -39,9 +39,7 @@ pipeline {
 				]]) {
 					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
 						dir('./terraform/vpc_scaffold'){
-							sh "ls -la"
-							sh "pwd"
-							sh "rm -rf .terraform"
+
 							sh "terraform init"
 							sh "terraform fmt"
 							sh "terraform plan"
