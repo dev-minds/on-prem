@@ -21,7 +21,7 @@ pipeline {
 
     stages {
 		stage('VPC infra'){
-			agent { docker { image 'hashicorp/terraform:0.12.12'}}
+			agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
 			steps {
 				checkout scm
 				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
