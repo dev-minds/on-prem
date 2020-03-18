@@ -1,3 +1,6 @@
+@Library('jenkins-library@master') _
+
+
 pipeline {
     agent any
     environment {
@@ -7,7 +10,8 @@ pipeline {
 
     parameters {
         choice(name: 'VPC_MANAGEMENT', choices: ['create', 'read', 'update', 'delete'], description: 'Manage VPCs per environment')
-		choice(name: 'VPC_ENV', choices: ['dev', 'qa'], description: 'Manage target environment')
+		choice(name: 'VPC_ENV', choices: ['dev', 'qa', 'prod'], description: 'Manage target environment')
+		booleanParam(name: 'Run_Packer', defaultValue: false, description: 'Run packer image builder')
     }
  
     options {
@@ -24,6 +28,10 @@ pipeline {
 			// agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
 			steps {
 				checkout scm
+				GitCheckout(
+					branch: "master", 
+					url: "https://github.com/spring-projects/spring-petclinic.git"
+				)
 				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
 					credentialsId: 'dm_aws_keys',
 					accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
