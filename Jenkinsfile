@@ -62,7 +62,6 @@ pipeline {
 					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
 						dir("./terragrunt/${AWS_ACCOUNT_NAME}/${env.AWS_REGION}/${params.Create_VPC_Environment}"){
 							sh "ls -a"
-							sh "terragrunt init"
 							sh "terragrunt destroy-all --terragrunt-non-interactive"
 						}
 					} 
