@@ -35,7 +35,7 @@ pipeline {
     stages {
 		stage('Initial Infra Deploy'){
 			steps {
-				deleteDir() 
+				 
 				when {
 					expression { 
 						params.Create_VPC_Environment == 'ALL' 
@@ -87,7 +87,7 @@ pipeline {
 
 		stage('Destroy Envs'){
 			steps {
-				deleteDir() 
+				
 				when {
 					expression { 
 						params.Create_VPC_Environment == 'ALL' 
