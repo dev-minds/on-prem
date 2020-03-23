@@ -94,9 +94,8 @@ pipeline {
 		}	
 		stage('Destroy All Envs'){
 			when { 
-				{ params.ALL_INFRA == 'all' }
-					anyof { 
-						params.Destroy_VPC_Environment == 'destroy' 
+				expression {
+					params.INFRA == 'all'
 				}
 			}
 			steps {
