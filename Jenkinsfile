@@ -18,12 +18,8 @@ pipeline {
 		// choice(name: 'UPDATE_DNS', choices: ['true', 'false'], description: 'Points environment to subdomain')
 
         choice(name: 'AWS_ACCOUNT_NAME', choices: ['dm_acct', 'ph_acct'], description: 'Specify target account name')
-		choice(name: 'Create_VPC_Environment', choices: ['mgmnt', 'dev01', 'stage', 'prod', 'ALL'], description: 'Specify target Environment(vpc) name')
-		choice(name: 'Update_VPC_Environment', choices: ['mgmnt', 'dev01', 'stage', 'prod', 'ALL'], description: 'Specify target Environment(vpc) name')
-		choice(name: 'Destroy_VPC_Environment', choices: ['mgmnt', 'dev01', 'stage', 'prod', 'ALL'], description: 'Specify target Environment(vpc) name')
-		string(name: 'Target_Resource', defaultValue: '', description: 'Specify a target resource id')
-
-
+		choice(name: 'Create_VPC_Environment', choices: ['', 'mgmnt', 'dev01', 'stage', 'prod', 'ALL'], description: 'Specify target Environment(vpc) name')
+		choice(name: 'Destroy_VPC_Environment', choices: ['', 'destroy'], description: 'Destroy specific vpc')
     }
  
     options {
@@ -60,29 +56,57 @@ pipeline {
 			}	
 		}
 
-		stage('Deploy Envs'){
+		// stage('Deploy Envs'){
+		// 	steps {
+		// 		deleteDir() 
+		// 		when {
+		// 			expression { 
+		// 				params.Create_VPC_Environment != 'ALL' 
+
+		// 			}
+		// 		}
+		// 		checkout scm
+		// 		GitCheckout(
+		// 			branch: "master", 
+		// 			url: "https://github.com/spring-projects/spring-petclinic.git"
+		// 		)
+		// 		withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+		// 			credentialsId: 'dm_aws_keys',
+		// 			accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+		// 			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+		// 		]]) {
+		// 			wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
+		// 				dir("./terragrunt/${AWS_ACCOUNT_NAME}/${env.AWS_REGION}/${Create_VPC_Environment}"){
+		// 					sh "terragrunt init"
+		// 					sh "terragrunt destroy-all --terragrunt-non-interactive"
+		// 				}
+		// 			} 
+		// 		}
+		// 	}	
+		// }
+
+		stage('Destroy Envs'){
 			steps {
 				deleteDir() 
+				when {
+					expression { 
+						params.Create_VPC_Environment == 'ALL' 
+					}
+				}
 				checkout scm
-				// GitCheckout(
-				// 	branch: "master", 
-				// 	url: "https://github.com/spring-projects/spring-petclinic.git"
-				// )
 				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
 					credentialsId: 'dm_aws_keys',
 					accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
 					secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
 				]]) {
 					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
-						dir("./terragrunt/${AWS_ACCOUNT_NAME}/${env.AWS_REGION}/${Create_VPC_Environment}"){
-							sh "terragrunt init"
-							sh "terragrunt apply -auto-approve"
+						dir("./terragrunt/${AWS_ACCOUNT_NAME}/${env.AWS_REGION}"){
+							sh "erragrunt destroy-all --terragrunt-non-interactive"
 						}
 					} 
 				}
 			}	
 		}
-
 
 		// stage('Bake AMI'){
 		// 	agent { docker { image 'simonmcc/hashicorp-pipeline:latest'}}
