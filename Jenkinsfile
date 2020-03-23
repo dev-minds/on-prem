@@ -2,11 +2,6 @@
 
 pipeline {
     agent any
-    environment {
-        AWS_DEFAULT_REGION = 'eu-west-1'
-		AWS_REGION = "eu-west-1"
-		TG_BUCKET_PREFIX = "dm-acct"
-    }
 
     parameters {
 		// string(name: 'CREATE_NEW_VPC', defaultValue: '', description: 'Deploys VPC networking is with given name')
@@ -22,6 +17,12 @@ pipeline {
 		choice(name: 'Destroy_VPC_Environment', choices: ['', 'destroy'], description: 'Destroy specific vpc')
     }
  
+    environment {
+        AWS_DEFAULT_REGION = 'eu-west-1'
+		AWS_REGION = "eu-west-1"
+		TG_BUCKET_PREFIX = "dm-acct"
+    }
+
     options {
 		buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
 		disableConcurrentBuilds()
@@ -34,13 +35,13 @@ pipeline {
 
     stages {
 		stage('Initial Infra Deploy'){
-			steps {
-				 
-				when {
-					expression { 
-						params.Create_VPC_Environment == 'ALL' 
-					}
+			when {
+				expression { 
+					params.Create_VPC_Environment == 'ALL' 
 				}
+			}
+			steps {
+				deleteDir() 
 				checkout scm
 				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
 					credentialsId: 'dm_aws_keys',
@@ -86,13 +87,13 @@ pipeline {
 		// }
 
 		stage('Destroy Envs'){
-			steps {
-				
-				when {
-					expression { 
-						params.Create_VPC_Environment == 'ALL' 
-					}
+			when {
+				expression { 
+					params.Create_VPC_Environment == 'ALL' 
 				}
+			}
+			steps {
+				deleteDir()
 				checkout scm
 				withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
 					credentialsId: 'dm_aws_keys',
