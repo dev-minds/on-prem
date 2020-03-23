@@ -68,13 +68,12 @@ pipeline {
 					} 
 				}
 			}	
+		}	
+	}
+	post {
+		always {
+			// One or more steps need to be included within each condition's block.
+			echo 'In any case im done here' 
 		}
-
-		post {
-  			always {
-    			// One or more steps need to be included within each condition's block.
-				echo 'In any case im done here' 
-  			}
-	    }	
 	}
 }
