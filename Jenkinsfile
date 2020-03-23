@@ -61,7 +61,7 @@ pipeline {
 					secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
 				]]) {
 					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
-						dir("./terragrunt/${AWS_ACCOUNT_NAME}/${env.AWS_REGION}/${params.Create_VPC_Environment}"){
+						dir("./terragrunt/${AWS_ACCOUNT_NAME}/${env.AWS_REGION}/${params.VPC_Environment}"){
 							sh "terragrunt apply-all -auto-approve --terragrunt-non-interactive"
 						}
 					} 
