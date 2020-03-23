@@ -89,7 +89,7 @@ pipeline {
 		stage('Destroy Envs'){
 			when {
 				expression { 
-					params.Create_VPC_Environment == 'ALL' 
+					params.Destroy_VPC_Environment == 'destroy' 
 				}
 			}
 			steps {
@@ -102,7 +102,8 @@ pipeline {
 				]]) {
 					wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']){
 						dir("./terragrunt/${AWS_ACCOUNT_NAME}/${env.AWS_REGION}"){
-							sh "erragrunt destroy-all --terragrunt-non-interactive"
+							sh "terragrunt init"
+							sh "terragrunt destroy-all --terragrunt-non-interactive"
 						}
 					} 
 				}
