@@ -24,8 +24,7 @@ pipeline {
     stages {
 		stage('Initial Infra Deploy'){
 			when {
-				anyOf {
-					params.Create_VPC_Environment == "all"
+				expression {
 					params.Create_VPC_Environment != ""
 				}
 			}
